@@ -33,7 +33,7 @@ docker-compose up -d
 
 Este comando irá:
 - Inicializar o LocalStack na porta 4566
-- Criar automaticamente a fila FIFO `EXEMPLO-SQS-LIKWI.fifo`
+- Criar automaticamente a fila FIFO `EXEMPLOSQS.fifo`
 - Configurar todas as dependências necessárias
 
 ### 2. Executar a Aplicação
@@ -52,7 +52,7 @@ aws --endpoint-url=http://localhost:4566 sqs list-queues
 ### Enviar Mensagem para a Fila
 ```shell
 aws --endpoint-url=http://localhost:4566 sqs send-message \
-  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLO-SQS-LIKWI.fifo" \
+  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLOSQS.fifo" \
   --message-body '{"eventId":"123","type":"test","message":"Primeira mensagem de teste!"}' \
   --message-group-id "test-group" \
   --message-deduplication-id "msg-$(date +%s)"
@@ -61,27 +61,27 @@ aws --endpoint-url=http://localhost:4566 sqs send-message \
 ### Receber Mensagem da Fila
 ```shell
 aws --endpoint-url=http://localhost:4566 sqs receive-message \
-  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLO-SQS-LIKWI.fifo"
+  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLOSQS.fifo"
 ```
 
 ### Verificar Quantidade de Mensagens na Fila
 ```shell
 aws --endpoint-url=http://localhost:4566 sqs get-queue-attributes \
-  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLO-SQS-LIKWI.fifo" \
+  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLOSQS.fifo" \
   --attribute-names ApproximateNumberOfMessages
 ```
 
 ### Receber Múltiplas Mensagens (até 10)
 ```shell
 aws --endpoint-url=http://localhost:4566 sqs receive-message \
-  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLO-SQS-LIKWI.fifo" \
+  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLOSQS.fifo" \
   --max-number-of-messages 10
 ```
 
 ### Limpar Todas as Mensagens da Fila
 ```shell
 aws --endpoint-url=http://localhost:4566 sqs purge-queue \
-  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLO-SQS-LIKWI.fifo"
+  --queue-url "http://sqs.sa-east-1.localhost.localstack.cloud:4566/000000000000/EXEMPLOSQS.fifo"
 ```
 
 ## ⚙️ Configuração
@@ -93,7 +93,7 @@ aws --endpoint-url=http://localhost:4566 sqs purge-queue \
 | `AWS_ACCESS_KEY` | `test` | Chave de acesso AWS (LocalStack) |
 | `AWS_SECRET_KEY` | `test` | Chave secreta AWS (LocalStack) |
 | `AWS_SQS_ENDPOINT` | `http://localhost:4566` | Endpoint do SQS |
-| `SQS_QUEUE_NAME` | `EXEMPLO-SQS-LIKWI.fifo` | Nome da fila SQS |
+| `SQS_QUEUE_NAME` | `EXEMPLOSQS.fifo` | Nome da fila SQS |
 
 ### Configurações do Consumer
 

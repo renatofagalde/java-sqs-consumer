@@ -19,7 +19,7 @@ spring:
 
 sqs:
   queue:
-    name: ${SQS_QUEUE_NAME:EXEMPLO-SQS-LIKWI.fifo}
+    name: ${SQS_QUEUE_NAME:EXEMPLOSQS.fifo}
 
 logging:
   level:

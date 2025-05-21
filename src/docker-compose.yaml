@@ -37,13 +37,13 @@ services:
       /bin/sh -c "
       echo 'Waiting for LocalStack to start...' &&
       sleep 5 &&
-      echo 'Creating FIFO queue EXEMPLO-SQS-LIKWI.fifo' &&
-      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs create-queue --queue-name EXEMPLO-SQS-LIKWI.fifo --attributes FifoQueue=true,ContentBasedDeduplication=true &&
-      echo 'SQS queue EXEMPLO-SQS-LIKWI.fifo created successfully' &&
+      echo 'Creating FIFO queue EXEMPLOSQS.fifo' &&
+      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs create-queue --queue-name EXEMPLOSQS.fifo --attributes FifoQueue=true,ContentBasedDeduplication=true &&
+      echo 'SQS queue EXEMPLOSQS.fifo created successfully' &&
       echo 'Listing queues:' &&
       aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs list-queues &&
       echo 'Queue URL:' &&
-      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs get-queue-url --queue-name EXEMPLO-SQS-LIKWI.fifo
+      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs get-queue-url --queue-name EXEMPLOSQS.fifo
       "
 
 volumes:
