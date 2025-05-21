@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!-- Configuração customizada para Datadog Agent com saída JSON -->
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <logLevel />
+                <loggerName />
+                <threadName />
+                <message />
+                <context />
+                <mdc /> <!-- Inclui dados do MDC -->
+                <arguments /> <!-- Inclui argumentos do log -->
+                <stackTrace /> <!-- Inclui stack trace em caso de erro -->
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="JSON_CONSOLE" />
+    </root>
+
+    <logger name="br.com.itau.webauthnlogs" level="DEBUG" additivity="false">
+        <appender-ref ref="JSON_CONSOLE" />
+    </logger>
+</configuration>

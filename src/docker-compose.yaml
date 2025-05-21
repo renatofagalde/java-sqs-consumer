@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  likwiconsumer-localstack:
+    image: localstack/localstack:latest
+    container_name: likwiconsumer-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=sqs
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=sa-east-1
+      - USE_SSL=false
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - likwiconsumer-localstack_data:/var/lib/localstack
+    networks:
+      - likwi-sqs-network
+    healthcheck:
+      test: "awslocal sqs list-queues || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  sqs-setup:
+    image: amazon/aws-cli:latest
+    depends_on:
+      likwiconsumer-localstack:
+        condition: service_healthy
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=sa-east-1
+    networks:
+      - likwi-sqs-network
+    entrypoint: >
+      /bin/sh -c "
+      echo 'Waiting for LocalStack to start...' &&
+      sleep 5 &&
+      echo 'Creating FIFO queue EXEMPLO-SQS-LIKWI.fifo' &&
+      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs create-queue --queue-name EXEMPLO-SQS-LIKWI.fifo --attributes FifoQueue=true,ContentBasedDeduplication=true &&
+      echo 'SQS queue EXEMPLO-SQS-LIKWI.fifo created successfully' &&
+      echo 'Listing queues:' &&
+      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs list-queues &&
+      echo 'Queue URL:' &&
+      aws --endpoint-url=http://likwiconsumer-localstack:4566 sqs get-queue-url --queue-name EXEMPLO-SQS-LIKWI.fifo
+      "
+
+volumes:
+  likwiconsumer-localstack_data:
+
+networks:
+  likwi-sqs-network:
+    driver: bridge

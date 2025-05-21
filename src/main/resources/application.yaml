@@ -1,0 +1,29 @@
+spring:
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+  threads:
+    virtual:
+      enabled: true
+  profiles:
+    active: local
+  cloud:
+    aws:
+      region:
+        static: sa-east-1
+      credentials:
+        access-key: ${AWS_ACCESS_KEY:test}
+        secret-key: ${AWS_SECRET_KEY:test}
+      sqs:
+        endpoint: ${AWS_SQS_ENDPOINT:http://localhost:4566}
+
+sqs:
+  queue:
+    name: ${SQS_QUEUE_NAME:EXEMPLO-SQS-LIKWI.fifo}
+
+logging:
+  level:
+    root: INFO
+    br.com.likwi: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{requestId:-unknown}] %-5level %logger{36} - %msg%n"
