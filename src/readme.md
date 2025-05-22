@@ -158,4 +158,3 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - [LocalStack Documentation](https://docs.localstack.cloud/)
 - [AWS SQS Documentation](https://docs.aws.amazon.com/sqs/)
 - [Spring Cloud AWS](https://spring.io/projects/spring-cloud-aws)
-- 
